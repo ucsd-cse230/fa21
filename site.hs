@@ -86,6 +86,7 @@ tops =
   , "assignments.md"
   , "calendar.md"
   , "contact.md"
+  , "project.md"
   ]
 
 fac  :: Int -> Int 
