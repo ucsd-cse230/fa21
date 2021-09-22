@@ -12,9 +12,12 @@ headerImg: beach.jpg
   where a late day means anything between 1 second and 23 
   hours 59 minutes and 59 seconds past a deadline.
 
-- **Project (30%)** : 
-  A [project](project.html) that will be completed **in a group of 4** over 
-  the quarter and demo-ed during the final exam time block.
+- **Final Project (30%)** : 
+  A project that will be completed **in a group of 4** over 
+  the quarter and demo-ed and evaluated during the final exam block.
+
+- **Final Exam (30%)** :
+   The final exam, to be done **alone** and held during the assigned final exam block.
 
 - **Piazza (5%)** :
   Extra credit for top-15 best participants on Piazza.

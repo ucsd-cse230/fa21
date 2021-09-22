@@ -16,6 +16,7 @@ headerImg: angles.jpg
 + *Lectures:* Tu-Th 12:30 to 1:50pm
 + *Location:* P416 WEST (Outdoor tent) and Zoom link on [CANVAS](https://canvas.ucsd.edu/courses/29526)
 + *Messages:* [Piazza](https://piazza.com/class/ktu6rpy6cmh79)
++ *Final:* Fri 12/10 11:30 - 2:30p
 
 ## Description
 

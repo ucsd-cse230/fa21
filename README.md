@@ -88,11 +88,11 @@ originally published by Lucas Gatsas.
 - [*] calendar.md
 - [*] grades.md
 - [*] lectures.md
-- [ ] CANVAS
-- [ ] assignments.md
-- [ ] 00-lambda  
-	- [ ] Github 
-	- [ ] Canvas
+- [*] CANVAS
+- [*] assignments.md
+- [*] 00-lambda  
+	- [*] Github 
+	- [*] Canvas
 
 --- 
 
