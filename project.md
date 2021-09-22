@@ -41,12 +41,12 @@ a score of zero**.
 
 Here are some ideas for you to get started
 
+- A clone of the [`fish` shell](https://fishshell.com/) with history-based autocomplete
 - An arcade game like `breakout` or `space invaders` 
 - A networked two player game e.g., chess, checkers, scrabble etc. 
 - A networked chat/irc/slack client
 - A vim/editor clone, extended with support for shared editing
 - A puzzle solver, e.g., sudoku.
-- A clone of the `fish` shell which *remembers* or auto-completes commands using history
 
 Feel free to think of other applications!
 
