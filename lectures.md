@@ -14,7 +14,7 @@ The lectures will be recorded and available on [CANVAS](https://canvas.ucsd.edu/
 | **Date**   | **Topic**                       | **Notes**                 | **Markup**           | **Code**          |
 |:----------:|:--------------------------------|:--------------------------|:---------------------|:------------------|
 | *9/23*     | Intro                           | [pdf][00-intro]           |                      |                   | 
-|            | Lambda Calculus                 | [html][01-lambda]         |                      |                   | 
+|            | Lambda Calculus                 | [html][01-lambda]         | [pdf][01-lambda-A]   |                   | 
 
 <!-- 
 | *10/8*     | ""                              |                           | [pdf][01-lambda-C]   |                   | 
