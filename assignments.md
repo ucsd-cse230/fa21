@@ -14,4 +14,4 @@ the [CSE 230 VM](https://drive.google.com/file/d/1BlYeSZPNVrxUu8jQWgUkquRBjE6wQw
 
 ## Assignment Links
 
-- [00-lambda](https://classroom.github.com/a/PwNVGSom), due **10/1 at 23:59:59**
+- [00-lambda](https://classroom.github.com/a/PwNVGSom), due **10/8 at 23:59:59**
