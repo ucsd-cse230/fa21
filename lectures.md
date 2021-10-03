@@ -15,9 +15,9 @@ The lectures will be recorded and available on [CANVAS](https://canvas.ucsd.edu/
 |:----------:|:--------------------------------|:--------------------------|:---------------------|:------------------|
 | *9/23*     | Intro                           | [pdf][00-intro]           | [pdf][01-lambda-A]   |                   | 
 | *9/28*     | Lambda Calculus                 | [html][01-lambda]         | [pdf][01-lambda-B]   |                   | 
+| *9/30*     | ""                              |                           | [pdf][01-lambda-C]   |                   | 
 
 <!-- 
-| *10/8*     | ""                              |                           | [pdf][01-lambda-C]   |                   | 
 | *10/13*    | ""                              |                           | [pdf][01-lambda-D]   |                   | 
 | *10/15*    | Haskell Basics                  | [html][02-hs-basic]       | [pdf][02-hs-basic-A] | [code][code]      |
 | *10/20*    | ""                              |                           | [pdf][02-hs-basic-B] | [code][code]      |
@@ -60,7 +60,6 @@ The lectures will be recorded and available on [CANVAS](https://canvas.ucsd.edu/
 [01-lambda-B]: static/raw/01-lambda-B.pdf
 [01-lambda-C]: static/raw/01-lambda-C.pdf
 [01-lambda-D]: static/raw/01-lambda-D.pdf
-[01-lambda-E]: static/raw/01-lambda-E.pdf
 [02-hs-basic]: lectures/02-haskell-basic.html
 [03-hs-types]: lectures/03-haskell-types.html
 [04-hs-io]: lectures/04-haskell-io.html
