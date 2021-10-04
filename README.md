@@ -133,3 +133,7 @@ cd /software/CSE/cse130/.stack && chmod -R a+rx *
 
 4. For each assignment,
 	- login as student to make sure that you can `git clone` and then run `stack test`
+
+## Private Stuff
+
+https://github.com/ucsd-cse130/grading/tree/master/assignments/
