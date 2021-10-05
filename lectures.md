@@ -16,10 +16,10 @@ The lectures will be recorded and available on [CANVAS](https://canvas.ucsd.edu/
 | *9/23*     | Intro                           | [pdf][00-intro]           | [pdf][01-lambda-A]   |                   | 
 | *9/28*     | Lambda Calculus                 | [html][01-lambda]         | [pdf][01-lambda-B]   |                   | 
 | *9/30*     | ""                              |                           | [pdf][01-lambda-C]   |                   | 
+| *10/5*     | ""                              |                           | [pdf][01-lambda-D]   |                   | 
+| *10/7*     | Haskell Basics                  | [html][02-hs-basic]       | [pdf][02-hs-basic-A] | [code][code]      |
 
 <!-- 
-| *10/13*    | ""                              |                           | [pdf][01-lambda-D]   |                   | 
-| *10/15*    | Haskell Basics                  | [html][02-hs-basic]       | [pdf][02-hs-basic-A] | [code][code]      |
 | *10/20*    | ""                              |                           | [pdf][02-hs-basic-B] | [code][code]      |
 | *10/22*    | Haskell  Types                  | [html][03-hs-types]       | [pdf][03-hs-types-A] | [code][code]      |  
 | *10/27*    | Polymorphism & HOFs             | [html][06-poly-data]      | [pdf][06-poly-hof]   | [code][code]      |
