@@ -237,7 +237,47 @@ if (window.navigator.appName == "Microsoft Internet Explorer") {
 <h2 id="assignment-links">Assignment Links</h2>
 <ul>
 <li><a href="https://classroom.github.com/a/PwNVGSom">00-lambda</a>, due <strong>10/8 at 23:59:59</strong></li>
+<li><a href="https://classroom.github.com/a/EKaa5k6e">01-trees</a>, due <strong>10/22 at 23:59:59</strong></li>
 </ul>
+<h2 id="aidan-denlingers-tips-on-haskell-on-ieng-servers">Aidan Denlinger’s Tips on Haskell-on-ieng servers</h2>
+<p><code>ieng6</code> instructions are the top half, working locally is the bottom half. This is a giant repository for a lot of common issues, so just skip to what you’re frustrated by/interested in :)</p>
+<h3 id="ieng6">ieng6</h3>
+<h2 id="procedure">Procedure</h2>
+<ul>
+<li>On Mac and Unix systems, you can use the terminal to ssh. On Windows, you can use any SSH client like <a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html">PuTTY</a>, or use <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">Windows Subsystem for Linux</a> to run Linux commands like <code>ssh</code>. You could also use UCSD’s <a href="https://linuxcloud.ucsd.edu">Linux Cloud</a> with the same login as below and start a Linux SSH terminal in the browser.</li>
+<li>Login to ieng6 with your active directory/email login, the hostname is ieng6.ucsd.edu (ex <code>ssh adenling@ieng6.ucsd.edu</code>). If you’re an extension student, you should check what your account is at <a href="https://sdacs.ucsd.edu/~icc/index.php">ETS Account Lookup</a>.
+<ul>
+<li>If you’re getting <em>read-only file system</em> errors when running make (<span class="citation" data-cites="16">@16</span>), try sshing into <code>ieng6-640.ucsd.edu</code> instead.</li>
+<li>If it still isn’t working, it seems that a fully local environment is the best solution so that you don’t need ieng6 at all, you can find instructions for this at the bottom of the doc.</li>
+</ul></li>
+<li><strong>PREP FOR THE CLASS BY RUNNING <code>cs131sp21</code>. YOU NEED TO DO THIS EVERY TIME YOU LOG IN FOR THIS CLASS</strong>. This is the most common mistake for ieng6 issues - do this before you do <em>anything else</em> for this class!</li>
+<li>If this is the only class you’re using ieng6 for, you may want to consider adding <code>cs131sp21</code> to the bottom of your <code>~/.bashrc</code> file. This means that <code>cs131sp21</code> will be run automatically every time you log into ieng6. You’ll want to remove this at the end of the quarter.</li>
+<li>From this point you’ll have access to <code>stack</code>/other Haskell software and should be able to clone your repo and get started, likely using tools like <code>nano</code> or <code>vim</code> to edit your files, with the README providing instructions on how to run the test suite.</li>
+</ul>
+<p>You can also use X11 forwarding on ieng6 (<code>ssh -X yourlogin@ieng6.ucsd.edu</code>) to run windowed applications like <code>gvim</code>. I think this takes extra software on Windows…</p>
+<h2 id="ieng6-errors">ieng6 errors:</h2>
+<ul>
+<li><p><em>read-only file system errors when running make (<span class="citation" data-cites="16">@16</span>)</em>: try sshing into <code>ieng6-640.ucsd.edu</code> instead. If it still isn’t working, it seems that a fully local environment is the best solution so that you don’t need ieng6 at all, you can find instructions for this at the bottom of the doc.</p></li>
+<li><p><em>When running <code>make</code>, “Preparing to install GHC to an isolated location” appears</em>: You likely have not prepped for the class. Without prepping, the Haskell compiler tries to install itself, which will take up all your space and then fail. We’re going to delete the <code>~/.stack</code> folder, which holds the compiler installation, so it will stop trying to install itself, and then ensure you’re prepped so you can use the already set up compiler.</p>
+<ul>
+<li>Log out.</li>
+<li>Log in, and <em>don’t</em> prep.</li>
+<li>Run <code>rm -r .stack</code>, which will remove the <code>.stack</code> folder if it exists.</li>
+<li>Run <code>ls</code>. If you see your PA here, you’re in the wrong place: you want your PA to be in the CSE131 prepped environment. Please <code>cd</code> into it, <code>git push</code> your changes so they’re saved to github, and delete the folder.</li>
+<li>Now prep by running <code>cs131sp21</code>.</li>
+<li>Run <code>rm -r .stack</code> again, just to make sure there is no <code>.stack</code> folder anywhere.</li>
+<li>If you deleted your PA earlier, you should clone it now that we’re prepped.</li>
+<li><code>cd</code> into your repo and try running <code>make</code>. It should be successful now. <strong>From this point on, please prep before you do anything for this class any time you login.</strong></li>
+<li></li>
+</ul></li>
+<li><p><em>permission denied (quota exceeded) errors or vim isn’t saving</em>: You’re out of space on ieng6. Run <code>cd</code> (no parameters) to go to your home directory, then run <code>du -hd1 | sort -hr</code>, which will list your folders in order of how much space they’re taking up. If you see <code>.stack</code>, please follow the above issue, you shouldn’t have that folder. Otherwise, clear up the space by moving or deleting the files that are taking up excessive space, then prep and try again.</p></li>
+<li><p><em>“Device or Resource busy” when trying to delete</em>: (Sungwoo figured this one out last quarter, thanks!) run <code>lsof +D /path_to_your_repo</code>, which will list all processes that have files from your repo open. Find the PIDs of the processes you don’t want active, and kill them using <code>kill pid_number</code> (or <code>kill -9 pid_number</code> if it refuses to close). You should now be able to delete.</p></li>
+</ul>
+<h1 id="working-locally">Working Locally</h1>
+<p>You don’t have to use ieng6 via the terminal and tools like <code>nano/vim</code>! Here are some alternatives: - You can use windowed applications on ieng6 as stated in the ieng6 procedure. - Edit your files locally in whatever editor you’d like, push them to github, pull them on ieng6, and then run the test suite. This basically only uses ieng6 to compile and run your code, with all editing done locally. - Some students have reported success with VSCode Remote Development to ssh into ieng6 and work in their VSCode, others have had major issues getting it to work, your experience may vary. If it’s giving you problems that you can’t solve in 10 minutes, I’d recommend either fully committing to ieng6 or a local environment (which is easier to get working than a problematic Remote Development).</p>
+<h2 id="a-complete-local-environment">A complete local environment</h2>
+<p>Here’s what you need to install for a completely local environment: - install <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">Windows Subsystem for Linux</a> if you’re on Windows, and <a href="https://docs.microsoft.com/en-us/windows/wsl/tutorials/wsl-vscode">here are instructions for using it with vscode</a>. Haskell can run on Windows, but it can have really weird issues sometimes, WSL is a much more pleasant experience. (If you have an old subsystem, WSL1 might have issues, you may need to update to WSL2) - install <code>stack</code> from a package manager like <code>apt</code> (<code>sudo apt install haskell-stack</code>) or <code>brew</code>, or from <a href="https://docs.haskellstack.org/">the stack website</a> if you don’t have a package manager. - install <code>nasm</code> and <code>clang</code> for compilation (without these, running <code>make</code> will have errors saying that it couldn’t find one of these programs), these should also be in package managers. - Optionally, install IDE extensions like the VSCode <code>Haskell</code> extension for syntax highlighting/hover/more</p>
+<p>With all this installed, you should have a local setup that seamlessly works with the PAs, just open up your IDE and run <code>make</code>.</p>
                 <hr>
             </div>
         </div>

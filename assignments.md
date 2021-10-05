@@ -15,6 +15,7 @@ the [CSE 230 VM](https://drive.google.com/file/d/1BlYeSZPNVrxUu8jQWgUkquRBjE6wQw
 ## Assignment Links
 
 - [00-lambda](https://classroom.github.com/a/PwNVGSom), due **10/8 at 23:59:59**
+- [01-trees](https://classroom.github.com/a/EKaa5k6e), due **10/22 at 23:59:59**
 
 ## Aidan Denlinger's Tips on Haskell-on-ieng servers
 
