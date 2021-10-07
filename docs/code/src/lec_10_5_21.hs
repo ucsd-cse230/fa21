@@ -1,4 +1,4 @@
-module Lec_10_4_21 where
+module Lec_10_5_21 where
 
 thing1 :: Integer
 thing1 = 2
