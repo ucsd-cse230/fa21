@@ -19,6 +19,3 @@ l3 = [7,8,9]
 
 flob :: [[Integer]]
 flob = [l1, l2, l3]
-
--- >>> sumTo 5
-

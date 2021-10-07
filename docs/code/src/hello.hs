@@ -1,66 +1,48 @@
+module Hello where
 
-import Prelude hiding (sequence)
-import Data.IORef
+thing1 :: Integer
+thing1 = 2 
 
-type Recipe a = IO a
+thing2 :: Double
+thing2 = 5.1 + 6.9
 
-main :: Recipe () 
-main = do 
-  counter <- newIORef 0 
-  hello counter
+thing3 :: [Char]
+thing3 = ['c', 'a', 't'] 
 
-list_unit :: [()]               -- Recipe ()
-list_unit = [(), (), (), ()]
+blob :: [Integer]
+blob = [1,2,3,4]
 
-list_int :: [Int]               -- Recipe a
-list_int = [1,2,3,4]
+l1, l2, l3 :: [Integer]
+l1 = [1,2,3]
+l2 = [4,5,6]
+l3 = [7,8,9]
 
-hello :: IORef Int -> Recipe () 
-hello counter = do 
-  n <- readIORef counter
-  putStrLn $ "(" ++ show n ++ ") What is your name?"
-  yourName <- getLine
-  if isEmpty yourName 
-      then do { writeIORef counter (n+1) ; hello counter }                    -- :: Recipe ()
-      else putStrLn ("Hello " ++ yourName)
+flob :: [[Integer]]
+flob = [l1, l2, l3]
 
--- return :: value -> Recipe value
-myName :: Recipe String 
-myName = return "Sean Connery"
-{- 
-  if cond
-      then recipe1 
-      else recipe2
+-- >>> sumTo 5
+-- 15
 
- -}
 
-isEmpty :: String -> Bool
-isEmpty s = length s == 0
+sumTo :: Int -> Int
+sumTo n = if n == 0 then 0 else n + sumTo (n-1)
+
+-- isitpossible :: [String]
+-- isitpossible = [1, "cat"]
 
 
 
-
-
-
-sequ [r] = r
-sequ (r:rs) = do {r; sequ rs}
-
--- sequence :: [Recipe a] -> Recipe a
--- sequence rs = foldr1 seq2 rs 
-
-seq2 :: Recipe a -> Recipe b -> Recipe (a, b)
-seq2 ra rb = do 
-  xa <- ra
-  xb <- rb
-  return (xa, xb)
-
-sillyRecipe :: Recipe String
-sillyRecipe = return "I am a silly String"
 
 {- 
-seq [r1, r2, r3]
-==>  r1 `do` r2 `do` r3
-==> do {r1 ; seq [r2, r3]}
-==> do {r1 ; do {r2; seq [r3] } } 
-==> do {r1 ; do {r2; r3 } } 
+
+flob :: 
+flob = [  , [4,5,6], [7,8,9] ]
+
+
 -}
+
+thing4 :: [Char]
+thing4 = "dog"
+
+thing5 :: [Char]
+thing5 = thing4 ++ thing5
