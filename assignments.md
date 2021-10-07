@@ -10,7 +10,7 @@ that 35 mins over the deadline is equal to 1 late day.
 ## Virtual Machine
 
 Those of you having trouble installing Haskell/GHC/stack etc. can use 
-the [CSE 230 VM](https://drive.google.com/file/d/1BlYeSZPNVrxUu8jQWgUkquRBjE6wQww3/view?usp=sharing)
+the [CSE 230 VM](https://drive.google.com/file/d/1zmxVhZJ3-Yfe6uBQuMnxVubTH2G_8Ax0/view?usp=sharing)
 
 ## Assignment Links
 
