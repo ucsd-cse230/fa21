@@ -19,6 +19,7 @@ The lectures will be recorded and available on [CANVAS](https://canvas.ucsd.edu/
 | *10/5*     | ""                              |                           | [pdf][01-lambda-D]   | [code][code-10-5]  | 
 | *10/7*     | Haskell Basics                  | [html][02-hs-basic]       |                      | [code][code-10-7]  |
 | *10/12*    | Haskell  Types                  | [html][03-hs-types]       |                      | [code][code-10-12] |  
+| *10/14*    | Polymorphism & HOFs             | [html][06-poly-data]      |                      | [code][code-10-14] |
 
 <!-- 
 | *10/20*    | ""                              |                           | [pdf][02-hs-basic-B] | [code][code]      |
@@ -64,6 +65,7 @@ The lectures will be recorded and available on [CANVAS](https://canvas.ucsd.edu/
 [code-10-5]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_10_5_21.hs
 [code-10-7]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_10_7_21.hs
 [code-10-12]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_10_12_21.hs
+[code-10-14]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_10_14_21.hs
 [02-hs-basic]: lectures/02-haskell-basic.html
 [03-hs-types]: lectures/03-haskell-types.html
 [04-hs-io]: lectures/04-haskell-io.html
