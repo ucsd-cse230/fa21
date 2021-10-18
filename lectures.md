@@ -19,7 +19,7 @@ The lectures will be recorded and available on [CANVAS](https://canvas.ucsd.edu/
 | *10/5*     | ""                              |                           | [pdf][01-lambda-D]   | [code][code-10-5]  | 
 | *10/7*     | Haskell Basics                  | [html][02-hs-basic]       |                      | [code][code-10-7]  |
 | *10/12*    | Haskell  Types                  | [html][03-hs-types]       |                      | [code][code-10-12] |  
-| *10/14*    | Bottling patterns with HOFs     | [html][07-patterns]       |                      | [code][code-10-14] |
+| *10/14*    | Bottling patterns with HOFs     | [html][07-patterns]       | [pdf][07-patterns-A] | [code][code-10-14] |
 | *10/19*    | Haskell: IO                     | [html][04-hs-io]          | ""                   | [code][code-10-19] |
 
 <!-- 
@@ -46,6 +46,7 @@ The lectures will be recorded and available on [CANVAS](https://canvas.ucsd.edu/
 [01-lambda-B]: static/raw/01-lambda-B.pdf
 [01-lambda-C]: static/raw/01-lambda-C.pdf
 [01-lambda-D]: static/raw/01-lambda-D.pdf
+[07-patterns-A]: static/raw/07-patterns-A.pdf
 [code-10-5]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_10_5_21.hs
 [code-10-7]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_10_7_21.hs
 [code-10-12]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_10_12_21.hs
