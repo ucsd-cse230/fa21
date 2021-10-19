@@ -21,6 +21,7 @@ The lectures will be recorded and available on [CANVAS](https://canvas.ucsd.edu/
 | *10/12*    | Haskell  Types                  | [html][03-hs-types]       |                      | [code][code-10-12] |  
 | *10/14*    | Bottling patterns with HOFs     | [html][07-patterns]       | [pdf][07-patterns-A] | [code][code-10-14] |
 | *10/19*    | Haskell: IO                     | [html][04-hs-io]          | ""                   | [code][code-10-19] |
+| *10/21*    | Type Classes                    | [html][08-typeclasses]    |                      | [code][code-10-21] |
 
 <!-- 
 | *11/5*     | Type Classes                    | [html][08-typeclasses]    | [pdf][08-classes]    | [code][code]      |
@@ -52,6 +53,7 @@ The lectures will be recorded and available on [CANVAS](https://canvas.ucsd.edu/
 [code-10-12]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_10_12_21.hs
 [code-10-14]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_10_14_21.hs
 [code-10-19]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_10_19_21.hs
+[code-10-21]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_10_21_21.hs
 
 [02-hs-basic]: lectures/02-haskell-basic.html
 [03-hs-types]: lectures/03-haskell-types.html
