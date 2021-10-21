@@ -22,6 +22,7 @@ The lectures will be recorded and available on [CANVAS](https://canvas.ucsd.edu/
 | *10/14*    | Bottling patterns with HOFs     | [html][07-patterns]       | [pdf][07-patterns-A] | [code][code-10-14] |
 | *10/19*    | Haskell: IO                     | [html][04-hs-io]          | ""                   | [code][code-10-19] |
 | *10/21*    | Type Classes                    | [html][08-typeclasses]    |                      | [code][code-10-21] |
+| *10/26*    | Functors & Monads               | [html][09-monads]         |                      | [code][code-10-26] | 
 
 <!-- 
 | *11/5*     | Type Classes                    | [html][08-typeclasses]    | [pdf][08-classes]    | [code][code]      |
