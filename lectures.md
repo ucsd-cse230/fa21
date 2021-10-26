@@ -23,10 +23,9 @@ The lectures will be recorded and available on [CANVAS](https://canvas.ucsd.edu/
 | *10/19*    | Haskell: IO                     | [html][04-hs-io]          | ""                   | [code][code-10-19] |
 | *10/21*    | Type Classes                    | [html][08-typeclasses]    |                      | [code][code-10-21] |
 | *10/26*    | Functors & Monads               | [html][09-monads]         |                      | [code][code-10-26] | 
+| *10/28*    | Iteration & State 	       | [lists][10-list] [state][11-state] |             | [code][code-10-28] | 
 
 <!-- 
-| *11/5*     | Type Classes                    | [html][08-typeclasses]    | [pdf][08-classes]    | [code][code]      |
-| *11/10*    | Functors                        | [html][09-monads]         | [pdf][09-functors]   | [code][code]      | 
 | *11/12*    | Monads                          | ""                        | [pdf][10-monads]     | [code][code]      | 
 | *11/17*    | State Transformers              | [html][11-state]          | [pdf][11-state-A]    | [code][code]      |
 | *11/19*    | Parser Combinators              | [html][12-parsers]        | [pdf][12-parsers-A]  | [code][code]      |
