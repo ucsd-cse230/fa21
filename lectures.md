@@ -23,7 +23,7 @@ The lectures will be recorded and available on [CANVAS](https://canvas.ucsd.edu/
 | *10/19*    | Haskell: IO                     | [html][04-hs-io]          | ""                   | [code][code-10-19] |
 | *10/21*    | Type Classes                    | [html][08-typeclasses]    |                      | [code][code-10-21] |
 | *10/26*    | Functors & Monads               | [html][09-monads]         |                      | [code][code-10-26] | 
-| *10/28*    | Iteration & State 	       | [lists][10-list] [state][11-state] |             | [code][code-10-28] | 
+| *10/28*    | Iteration & State 	       | [lists][10-list] [state][11-state]   |           | [code][code-10-28] | 
 
 <!-- 
 | *11/12*    | Monads                          | ""                        | [pdf][10-monads]     | [code][code]      | 
@@ -54,6 +54,8 @@ The lectures will be recorded and available on [CANVAS](https://canvas.ucsd.edu/
 [code-10-14]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_10_14_21.hs
 [code-10-19]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_10_19_21.hs
 [code-10-21]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_10_21_21.hs
+[code-10-26]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_10_26_21.hs
+[code-10-28]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_10_28_21.hs
 
 [02-hs-basic]: lectures/02-haskell-basic.html
 [03-hs-types]: lectures/03-haskell-types.html
