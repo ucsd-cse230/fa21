@@ -1,10 +1,7 @@
 {-# LANGUAGE DeriveFunctor #-}
-module Lec_10_26_21 where
+module Lec_10_28_21 where
 
 import Text.Printf (printf)
-
-incr :: Int -> Int
-incr x = x + 1
 
 data Expr
   = Con Integer        -- ^ 0,1,2,3,4
@@ -21,24 +18,6 @@ expr0 = (1 + 1)
 expr1 :: Expr
 expr1 = Div expr0' expr0 
 
-data Result a 
-  = Nul  
-  | Val a
-  deriving (Show, Functor)
-
--- >>> evalR expr1
--- Val 3
-
--- Div (Sub (Add (Con 4) (Con 5)) (Con 2)) (Add (Con 1) (Con 1))
-
-eval :: Expr -> Integer 
-eval (Con n)     = n 
-eval (Add e1 e2) = eval e1 + eval e2
-eval (Sub e1 e2) = eval e1 - eval e2
-eval (Mul e1 e2) = eval e1 * eval e2 
-eval (Div e1 e2) = eval e1 `div` eval e2 
-eval (Ite e1 e2 e3) = if eval e1 /= 0 then eval e2 else eval e3
-
 evalR :: Expr -> Result Integer 
 evalR (Con n)        = pure n 
 evalR (Add e1 e2)    = (+) <$> evalR e1 <*> evalR e2 
@@ -47,80 +26,60 @@ evalR (Mul e1 e2)    = (*) <$> evalR e1 <*> evalR e2
 evalR (Div e1 e2)    = div <$> evalR e1 <*> evalR e2 
 evalR (Ite e1 e2 e3) = ite <$> evalR e1 <*> evalR e2 <*> evalR e3 
 
+
 evalM :: Expr -> Result Integer 
 evalM (Con n)        = pure n 
 evalM (Add e1 e2)    = do { n1 <- evalM e1; n2 <- evalM e2; return (n1 + n2) }
 evalM (Sub e1 e2)    = do { n1 <- evalM e1; n2 <- evalM e2; return (n1 - n2) }
-evalM (Mul e1 e2)    = do { n1 <- evalM e1; n2 <- evalM e2; return (n1 * n2) }
-evalM (Div e1 e2)    = do { n1 <- evalM e1; n2 <- evalM e2; return (n1 `div` n2) }
+evalM (Mul e1 e2)    = do { 
+  n1 <- evalM e1; 
+  n2 <- evalM e2; 
+  return (n1 * n2) 
+  }
+evalM (Div e1 e2)    = do { 
+  n1 <- evalM e1; 
+  n2 <- evalM e2;
+  if n2 == 0 
+    then throw ("Oops dbz: " ++ show e2)
+    else return (n1 `div` n2) 
+  }
 evalM (Ite e1 e2 e3) = ite <$> evalR e1 <*> evalR e2 <*> evalR e3 
 
+defaultResult :: Integer
+defaultResult = 999
+
+silly :: Expr -> Integer
+silly e = case evalM e of
+  Val n -> n
+  _     -> defaultResult
 
 
 
+throw = Err
 
-
+-- >>> silly (Div (2 + 4) (2 + 1))
+-- 2
 {- 
 
-  pure f <*> x      === fmap f x
+do {
+  x1 <- e1;
+  x2 <- e2;
+  x3 <- e3;
+  e
+}
 
-        f            :: a -> b
-        pure f       :: Result (a -> b)
-        x            :: Result a
-        pure f <*> x :: Result b
-
-
-        fmap :: (a -> b) -> Result a -> Result b
-        f            :: a -> b
-        x            :: Result a
-        fmap f x    :: Result b 
-
- fmap :: (a -> b) -> Result a -> Result b
-
- pure :: a -> Result a
-
- <*>  :: Result (a -> b) -> Result a -> Result b
-
-
+e1 >>= \x1 -> 
+  e2 >>= \x2 ->
+    e3 >>= \x3 -> 
+      e
+ 
 
 -}
+
 
 
 
 ite n1 n2 n3 = if n1 /= 0 then n2 else n3
-
-check0 :: Result Integer -> Result Integer
-check0 (Val 0) = Nul
-check0 r       = r 
-
-{- 
-  class Functor f => Applicative f where
-    pure :: a -> f a
-    (<*>) :: f (a -> b) -> f a -> f b
-
-  class Applicative r where
-      apply :: r (a -> b) -> r a -> r b
-
-      apply :: Result (a -> b) -> Result a -> Result b 
--}
-
-
-
--- >>> evalR expr0
--- Val 0
-
-
-
-magic3 :: (a1 -> a2 -> a3 -> b) -> Result a1 -> Result a2 -> Result a3 -> Result b
-magic3 op r1 r2 r3 = 
-    case r1 of
-        Nul    -> Nul
-        Val n1 -> case r2 of 
-            Nul -> Nul 
-            Val n2 -> case r3 of 
-                Nul -> Nul 
-                Val n3 -> Val (op n1 n2 n3)
-
 
 instance Applicative Result where
   (<*>) = apply
@@ -129,78 +88,57 @@ instance Applicative Result where
 apply :: Result (a -> b) -> Result a -> Result b
 apply fR aR = 
     case fR of
-        Nul   -> Nul
+        Err msg -> Err msg
         Val f -> case aR of 
-            Nul -> Nul 
+            Err msg -> Err msg
             Val a -> Val (f a) 
 
-inc :: Integer -> Integer 
-inc x = x + 1
 
--- >>> apply (Val inc) Nul
--- Nul
-
--- >>> inc 8
-
--- >>> apply (Val inc) (Val 8)
--- Val 9
-
-mystery :: Result (Integer -> Integer)
-mystery = apply (Val plus) (Val 10)
-
--- >>> ((Val plus) `apply` (Val 10)) `apply` (Val 20)
--- Val 30
+data Result a 
+  = Err String 
+  | Val a
+  deriving (Show, Functor)
 
 
-plus :: Integer -> Integer -> Integer
-plus x y = x + y 
+data List a = Nil | Cons a (List a) deriving (Show, Functor)
+
+instance Monad List where
+  -- (>>=)  :: List a -> (a -> List b) -> List b
+  xs >>= f = awesomeList xs f
+
+  -- return :: a -> List a
+  return x = Cons x Nil
 
 
 
 
-magic2 :: (a1 -> a2 -> b) -> Result a1 -> Result a2 -> Result b
-magic2 op r1 r2 = do 
-    { n1 <- r1; 
-      n2 <- r2;
-     pure (n1 `op` n2)
-    }
-    -- (>>=) r1 (\n1 -> 
-    --     (>>=) r2 (\n2 -> 
-    --         pure (n1 `op` n2)
-    --     )
-    -- )
+
+awesomeList :: List a -> (a -> List b) -> List b
+awesomeList Nil         _ = Nil
+awesomeList (Cons a as) f = append (f a) (awesomeList as f)
+
+append :: List b -> List b -> List b
+append Nil         ys = ys
+append (Cons x xs) ys = Cons x (append xs ys) 
+
+
+-- fmap  f [a1, a2, a3] ==> [b11, b12, b13, b21, b22, b31]
+
+instance Applicative List where
 
 {-
-
-do {
-    x1 <- e1;
-    x2 <- e2;
-    e3
-}
-
-e1 >>= \x1 -> 
-    e2 >>= \x2 ->
-        e3
-
-
-      (a -> b) -> t a -> t b
-    
-    t (a -> b) -> t a -> t b
-    
-    t a -> (a -> t b) -> t b
-
-
-
 class Monad m where
-    (>>=) :: m a -> (a -> m b) -> m b
+    (>>=)  :: m a -> (a -> m b) -> m b
+    return :: a -> m a 
 -}
+
 instance Monad Result where
     (>>=) = awesome
+    return x = Val x
 
 awesome :: Result a -> (a -> Result b) -> Result b
-awesome r doStuff = case r of 
-    Nul -> Nul
-    Val n -> doStuff n
+awesome (Err msg) _ = Err msg 
+awesome (Val v)   f = f v
 
 {- 
     case r1 of
@@ -216,9 +154,22 @@ awesome r doStuff = case r of
                 Val (n1 `op` n2)
 -}
 
+foo :: List (Integer, Bool)
+foo = do
+  x <- Cons 1 (Cons 2 (Cons 3 Nil))
+  y <- Cons True (Cons False Nil) 
+  return (x, y)
+
+{- 
+   for x in (range 1 3):
+     for y in (range ...):
+       yield (x, y)
+
+-}
 
 
-            
+-- >>> foo
+-- Cons (1,True) (Cons (1,False) (Cons (2,True) (Cons (2,False) (Cons (3,True) (Cons (3,False) Nil)))))
 
 
 
@@ -248,8 +199,137 @@ instance Num Expr where
 
 
 
-data Tree a = Leaf | Node a (Tree a) (Tree a)
-  deriving (Functor)
+tree0' = fmap (\c -> (c, 0)) tree0
+
+treeLabelled :: Tree (Char, Int)
+treeLabelled = Node (Node (Leaf ('a',0)) (Leaf ('b',1))) (Node (Leaf ('c',2)) (Leaf ('a',3)))
+
+-- >>> label tree0
+-- Node (Node (Leaf ('a',0)) (Leaf ('b',1))) (Node (Leaf ('c',2)) (Leaf ('a',3)))
+
+type State = Int
+
+label :: Tree a -> Tree (a, Int)
+label t = fst (worker t 0)
+
+worker :: Tree a -> State -> (Tree (a, Int), State)
+worker (Leaf v)   n = (Leaf (v, n),  n')
+  where
+    n' = n + 1 
+
+worker (Node l r) n = (Node l' r', n'')
+  where
+    (l', n')  = worker l n
+    (r', n'') = worker r n'
+
+-- >>> labelM tree0
+-- Node (Node (Leaf ('a',"0")) (Leaf ('b',"1"))) (Node (Leaf ('c',"2")) (Leaf ('a',"3")))
+
+labelM :: Tree a -> Tree (a, String)
+labelM t = fst (evalstate 0 (workerM t))
+
+workerM :: Tree a -> ST (Tree (a, String))
+workerM (Leaf v) = do 
+  n <- tick
+  return (Leaf (v, n))
+
+workerM (Node l r) = do 
+  l' <- workerM l
+  r' <- workerM r
+  return (Node l' r')
+
+newtype ST a = STC (State -> (a, State))
+
+instance Functor ST where
+  fmap = fmapST 
+
+{- 
+
+  sta :: State -> (a, State)  
+  s   :: State
+  f   :: a -> b
+
+  sta s :: (a, State)
+
+
+-}
+
+
+
+
+instance Applicative ST where
+
+instance Monad ST where
+    -- (>>=)  :: ST a -> (a -> ST b) -> ST b
+    (>>=) = awesomeST
+    -- return :: a -> ST a 
+    return = returnST
+
+
+
+st :: ST [Int]
+st = STC (\n -> ([n, n+1, n+2], n+3))
+
+-- >>> evalstate 1000 st
+-- ([1000,1001,1002],1003)
+
+-- >>> evalstate 100 tick
+-- ("100",101)
+
+-- >>> evalstate 100 (tick >>= \_ -> return "mugatu")
+-- ("mugatu",101)
+
+-- >>> evalstate 100 (do { n0 <- tick; n1 <- tick; n2 <- tick; return [n0,n1,n2] })
+-- (["100","101","102"],103)
+
+--(A) z = "100"
+--(B) z = "101"
+--(C) z = "102"
+
+
+-- >>> evalstate 100 (tick >>= \z1 -> return [z1])
+
+-- >>> evalstate 0 (do { z0 <- tick; _ <- tick; z2 <- tick; return (z0 ++ z2) })
+-- ("02",3)
+-- ("100102",103)
+
+tick :: ST String
+tick = STC (\n -> (show n, n+1))
+
+
+evalstate :: State -> ST a -> (a, State) 
+evalstate s0 (STC sta) = sta s0
+
+returnST :: a -> ST a
+returnST a = STC (\s -> (a, s)) 
+
+awesomeST :: ST a -> (a -> ST b) -> ST b
+awesomeST (STC sta) a_to_stb = STC 
+  (\s -> 
+    let (a, s')  = sta s 
+        STC stb  = a_to_stb a
+        (b, s'') = stb s' 
+    in
+       (b, s'')
+  )
+
+fmapST :: (a -> b) -> ST a -> ST b
+fmapST f (STC sta) = STC (\s -> let (a, s') = sta s in (f a, s')) 
+
+
+
+tree0 :: Tree Char
+tree0 = Node 
+          (Node 
+              (Leaf 'a') 
+              (Leaf 'b')) 
+          (Node 
+              (Leaf 'c') 
+              (Leaf 'a'))
+
+
+data Tree a = Leaf a | Node (Tree a) (Tree a)
+  deriving (Show, Functor)
 
 class Mappable t where
   gmap :: (a -> b) -> t a -> t b 
@@ -265,22 +345,6 @@ instance Show Tree where
 
 -}
 
-instance Mappable Tree where
-    gmap = mapTree 
-
-
-
-
-
-instance Mappable [] where
-    gmap = map
-
-
--- >>> fmap (\x -> x * x) (Node 10 Leaf Leaf)
--- Node 100 Leaf Leaf
-
-mapTree f Leaf = Leaf
-mapTree f (Node x l r) = Node (f x) (mapTree f l) (mapTree f r)
 
 
 
@@ -290,57 +354,3 @@ mapTree f (Node x l r) = Node (f x) (mapTree f l) (mapTree f r)
 
 
 
-
-
-
-
-
-
-
-
-
-
-data List a = Nil | Cons a (List a)
-  deriving (Show)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-instance Functor List where
-
-instance Applicative List where
-
-instance Monad List where
-    return x          = Cons x Nil
-    Nil >>= k         = Nil
-    (Cons x xs) >>= k = k x `append` (xs >>= k)
-
-boo :: List (Integer, Bool)
-boo = do
-    x <- Cons 1 (Cons 2 Nil)
-    y <- Cons True (Cons False Nil)
-    return (x, y)
-
--- >>> boo
--- Cons (1,True) (Cons (1,False) (Cons (2,True) (Cons (2,False) Nil)))
-
-append :: List a -> List a -> List a
-append Nil ys         = ys
-append (Cons x xs) ys = Cons x (append xs ys)

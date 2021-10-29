@@ -156,8 +156,6 @@ plus :: Integer -> Integer -> Integer
 plus x y = x + y 
 
 
-
-
 magic2 :: (a1 -> a2 -> b) -> Result a1 -> Result a2 -> Result b
 magic2 op r1 r2 = do 
     { n1 <- r1; 
