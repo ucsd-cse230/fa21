@@ -484,14 +484,14 @@ if (window.navigator.appName == "Microsoft Internet Explorer") {
 <h2 id="lets-do-the-above-examples">Lets <code class="sourceCode haskell"><span class="kw">do</span></code> the above examples</h2>
 <p>Remember, <code class="sourceCode haskell"><span class="kw">do</span></code> is just nice syntax for the above!</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true"></a><span class="co">-- Increment the counter by 3</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true"></a><span class="ot">next3 ::</span> <span class="dt">ST</span> [<span class="dt">Int</span>, <span class="dt">Int</span>]</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true"></a><span class="ot">next3 ::</span> <span class="dt">ST</span> [<span class="dt">String</span>]</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true"></a>next3 <span class="ot">=</span> <span class="kw">do</span></span>
 <span id="cb30-4"><a href="#cb30-4" aria-hidden="true"></a>  n1 <span class="ot">&lt;-</span> next</span>
 <span id="cb30-5"><a href="#cb30-5" aria-hidden="true"></a>  n2 <span class="ot">&lt;-</span> next</span>
 <span id="cb30-6"><a href="#cb30-6" aria-hidden="true"></a>  n3 <span class="ot">&lt;-</span> next</span>
 <span id="cb30-7"><a href="#cb30-7" aria-hidden="true"></a>  <span class="fu">return</span> [n1,n2,n3]</span></code></pre></div>
 <p>And then sequence it <em>twice</em> to get</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true"></a><span class="ot">next6 ::</span> <span class="dt">ST</span> [<span class="dt">Int</span>]</span>
+<div class="sourceCode" id="cb31"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true"></a><span class="ot">next6 ::</span> <span class="dt">ST</span> [<span class="dt">String</span>]</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true"></a>next6 <span class="ot">=</span> <span class="kw">do</span></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true"></a>  ns_123 <span class="ot">&lt;-</span> next3</span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true"></a>  ns_456 <span class="ot">&lt;-</span> next3</span>
