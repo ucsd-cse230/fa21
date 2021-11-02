@@ -16,7 +16,7 @@ the [CSE 230 VM](https://drive.google.com/file/d/1zmxVhZJ3-Yfe6uBQuMnxVubTH2G_8A
 
 - [00-lambda](https://classroom.github.com/a/PwNVGSom), due **10/8 at 23:59:59**
 - [01-trees](https://classroom.github.com/a/EKaa5k6e), due **10/22 at 23:59:59**
-- [02-while](https://classroom.github.com/a/apPaNw-v), due **11/05 at 23:59:59**
+- [02-while](https://classroom.github.com/a/apPaNw-v), due **11/12 at 23:59:59**
  
 ## Aidan Denlinger's Tips on Haskell-on-ieng servers
 
