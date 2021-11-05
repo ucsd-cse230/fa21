@@ -25,6 +25,7 @@ The lectures will be recorded and available on [CANVAS](https://canvas.ucsd.edu/
 | *10/26*    | Functors and Monads             | [html][09-monads]         |                      | [code][code-10-26] | 
 | *10/28*    | Iteration and State             | [lists][10-list] [state][11-state]   |  [pdf][11-state-A] | [code][code-10-28] | 
 | *11/2*     | Parser Combinators              | [html][12-parsers]        |                      | [code][code-11-2]  |
+| *11/4*     | ""                              |                           |                      | [code][code-11-4]  |
 
 <!-- 
 | *11/12*    | Monads                          | ""                        | [pdf][10-monads]     | [code][code]      | 
@@ -58,6 +59,7 @@ The lectures will be recorded and available on [CANVAS](https://canvas.ucsd.edu/
 [code-10-26]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_10_26_21.hs
 [code-10-28]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_10_28_21.hs
 [code-11-2]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_11_2_21.hs
+[code-11-2]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_11_4_21.hs
 
 [02-hs-basic]: lectures/02-haskell-basic.html
 [03-hs-types]: lectures/03-haskell-types.html
