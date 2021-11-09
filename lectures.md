@@ -26,10 +26,10 @@ The lectures will be recorded and available on [CANVAS](https://canvas.ucsd.edu/
 | *10/28*    | Iteration and State             | [lists][10-list] [state][11-state]   |  [pdf][11-state-A] | [code][code-10-28] | 
 | *11/2*     | Parser Combinators              | [html][12-parsers]        |                      | [code][code-11-2]  |
 | *11/4*     | ""                              |                           |                      | [code][code-11-4]  |
+| *11/9*     | Monad Transformers              | [html][13-transformers]   |                      | [code][code-11-9]  | 
+| *11/16*    | Property-based Testing          | [html][14-testing]        |                      | [code][code-11-16] | 
 
 <!-- 
-| *11/12*    | Monads                          | ""                        | [pdf][10-monads]     | [code][code]      | 
-| *11/17*    | State Transformers              | [html][11-state]          | [pdf][11-state-A]    | [code][code]      |
 | *12/3*     | Exceptions                      | [html][13-transformers]   | [pdf][13-exceptions] | [code][code]      | 
 | *12/8*     | Monad Transformers              | [html][13-transformers]   | [TBD][13-trans]      | [code][code]      | 
 |            | Property-based Testing          | [html][14-testing]        | [TBD][TBD]           | [code][code]      | 
@@ -59,7 +59,7 @@ The lectures will be recorded and available on [CANVAS](https://canvas.ucsd.edu/
 [code-10-26]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_10_26_21.hs
 [code-10-28]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_10_28_21.hs
 [code-11-2]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_11_2_21.hs
-[code-11-2]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_11_4_21.hs
+[code-11-4]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_11_4_21.hs
 
 [02-hs-basic]: lectures/02-haskell-basic.html
 [03-hs-types]: lectures/03-haskell-types.html
