@@ -18,8 +18,8 @@ The goal of the project is to give you some hands on
 experience with building a realistic application using
 the principles learned in CSE 230.
 
-- **11/11** Proposal 
-- **11/25** Updates
+- **Friday 11/12** Proposal [Submit here](https://forms.gle/Fd4CUajSCzS4Er4e7)
+- **Friday 11/25** Updates
 - **12/10** Demonstration
 
 The overall goal is for *you* to write an application 

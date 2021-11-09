@@ -6,6 +6,7 @@ module Lec_11_9_21 where
 -- import Data.Map
 
 import Data.Char (isAlpha, isDigit)
+import qualified Data.List as L
 newtype Parser a = MkParser (String -> [(a, String)]) 
   deriving (Functor)
 
@@ -78,24 +79,115 @@ c2i :: Char -> Int
 c2i c = read [c]
 
 intP :: Parser Int 
-intP = do 
-    is <- manyP digitP
-    return (read is)
+intP = fmap read (manyP digitP)
+
+-- pat :: Monad m => (a -> b) -> m a -> m b
+-- pat f e = do { x <- e ; return (f x) }
 
 manyP :: Parser a -> Parser [a]
 manyP aP = (do { a <- aP; as <- manyP aP; return (a:as) })
             `orElse`
             return []
 
--- >>> runParser calcP "19-1"
--- stack overflow
 
-calcP :: Parser Int
-calcP = do
-    n1 <- intP
-    o  <- opP
-    n2 <- intP
-    return (o n1 n2)
+-- >>> runParser intP "345cat"
+-- [(345,"cat")]
+
+-- B. [(345, "cat")]
+-- D. [(3, "45cat")]
+-- E. [("345", "cat")]
+
+-- A. []
+-- C. [(3, "cat")]
+
+
+
+-- >>> runParser exprP "10*2+5"
+-- 25
+
+-- >>> runParser exprP "10-2-5"
+-- 3
+
+
+-- >>> runParser expr1P "10-2-2"
+-- [(6,"")]
+
+-- >>> runParser expr1P "10*2+5"
+-- [(25,"")]
+ 
+expr1P, sumP, prodP :: Parser Int
+expr1P = sumP   
+sumP   = manyWithOp' prodP (addP `orElse` subP)
+prodP  = manyWithOp' intP  mulP 
+
+manyWithOp :: Parser a -> Parser (a -> a -> a) -> Parser a
+manyWithOp xP oP = do
+  x1  <- xP 
+  oxs <- manyP (do { o <- oP; x <- xP; return (o, x) })
+  return $ L.foldl' (\x (o, x') -> x `o` x') x1 oxs
+
+manyWithOp' :: Parser a -> Parser (a -> a -> a) -> Parser a
+manyWithOp' xP oP = do {x1 <- xP; continue x1}
+  where 
+    continue x = do { o <- oP; x' <- xP; continue (x `o` x') } 
+                 `orElse`
+                 return x
+
+
+-- x1 o x2 o x3 o x4
+
+
+
+--    (((x1 o x2) o x3) o x4)
+
+-- x1 [(o, x2), (o, x3), (o, x4), ...]
+
+{- 
+
+      EXPR = n1 o1 n2 o2 n3 o3 n4 o ...
+
+
+      EXPR = SUM 
+
+      SUM  = (((PROD + PROD) + PROD) + PROD) ...
+
+      PROD = ((NUM * NUM) * NUM) * NUM
+
+
+      10 * 20 * 30 + 40 * 50 * 60 + 70 * 80 * 90
+
+      PROD1 = 10 * 20 * 30
+          (NUM_10 * NUM_20) * NUM_3 
+
+      PROD2 = 40 * 50 * 60
+      PROD4 = 60 * 70 * 80
+
+
+
+      (PROD * 30) + (PROD * 60) + (PROD * 90)
+      
+      PROD + PROD + PROD 
+
+      SUM + PROD 
+
+      SUM
+
+      EXPR
+
+
+-}
+
+exprP :: Parser Int
+exprP = binExpP `orElse` intP
+
+binExpP :: Parser Int
+binExpP = do
+  n1 <- exprP
+  o  <- opP
+  n2 <- intP
+  return (o n1 n2)
+
+
 
 opP :: Parser (Int -> Int -> Int)
 opP = addP `orElse` subP `orElse` mulP
@@ -277,3 +369,56 @@ failP = MkParser (\_ -> [])
 instance Applicative Parser where
     pure x = MkParser (\s -> [(x, s)])
     (<*>)  = undefined
+
+
+
+data Expr
+  = Number Int            -- ^ 0,1,2,3,4
+  | Plus   Expr Expr      -- ^ e1 + e2
+  | Div    Expr Expr      -- ^ e1 / e2
+  | Try    Int Expr 
+  deriving (Show)
+
+data Result s  a = Err s | Ok a
+                  deriving (Show, Functor)
+
+data Either e a = Left e | Right a
+
+
+instance Applicative (Result s) where
+
+instance Monad (Result s) where
+  return x      = Ok x
+  (Ok v)  >>= f = f v
+  (Err s) >>= _ = Err s
+
+eval :: Expr -> Result Expr Int
+eval (Number n)    = return n
+eval (Plus  e1 e2) = do 
+  n1 <- eval e1
+  n2 <- eval e2 
+  return (n1+n2)
+eval (Div   e1 e2) = do 
+  n1 <- eval e1 
+  n2 <- eval e2 
+  if n2 /= 0 
+    then return (n1 `div` n2) 
+    else throw e2
+eval (Try n e) = eval e 
+                  `catch` (\_ -> return n)
+
+
+catch :: Result e a -> (e -> Result e a) -> Result e a
+catch (Ok val) _      = Ok val
+catch (Err e ) handler = handler e
+
+-- catch :: Result e Int -> (e -> Result e Int) -> Result e Int 
+
+throw :: s -> Result s a
+throw = Err
+
+-- >>> eval (Div (Number 10) (Number 5))
+-- Ok 2
+
+-- >>> eval (Try 55 (Plus (Number 3) (Div (Number 10) (Plus (Number 5) (Number (-5))))))
+-- Err (Plus (Number 5) (Number (-5)))
