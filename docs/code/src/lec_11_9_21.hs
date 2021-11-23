@@ -421,4 +421,4 @@ throw = Err
 -- Ok 2
 
 -- >>> eval (Try 55 (Plus (Number 3) (Div (Number 10) (Plus (Number 5) (Number (-5))))))
--- Err (Plus (Number 5) (Number (-5)))
+-- Ok 55
