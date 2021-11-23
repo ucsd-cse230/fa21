@@ -28,13 +28,13 @@ The lectures will be recorded and available on [CANVAS](https://canvas.ucsd.edu/
 | *11/4*     | ""                              |                           |                      | [code][code-11-4]  |
 | *11/9*     | Monad Transformers              | [html][13-transformers]   |                      | [code][code-11-9]  | 
 | *11/16*    | Property-based Testing          | [html][14-testing]        |                      | [code][code-11-16] | 
+| *11/23*    | Concurrency                     | [html][15-stm]            | [pdf][pfd13]         | [code][code-11-23] |
 
 <!-- 
 | *12/3*     | Exceptions                      | [html][13-transformers]   | [pdf][13-exceptions] | [code][code]      | 
 | *12/8*     | Monad Transformers              | [html][13-transformers]   | [TBD][13-trans]      | [code][code]      | 
 |            | Property-based Testing          | [html][14-testing]        | [TBD][TBD]           | [code][code]      | 
 |            | List Monad                      | [html][10-list]           |                      |                  |
-|            | Concurrency                     |                           |                      |                  |
 |            | Refinement Types                |                           |                      |                  |          
 |            | Proofs as Programs              |                           |                      |                  | 
 -->
@@ -60,6 +60,10 @@ The lectures will be recorded and available on [CANVAS](https://canvas.ucsd.edu/
 [code-10-28]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_10_28_21.hs
 [code-11-2]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_11_2_21.hs
 [code-11-4]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_11_4_21.hs
+[code-11-9]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_11_9_21.hs
+[code-11-16]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/lec_11_16_21.hs
+[code-11-23]: https://github.com/ucsd-cse230/fa21/tree/master/static/code/src/stm.lhs
+
 
 [02-hs-basic]: lectures/02-haskell-basic.html
 [03-hs-types]: lectures/03-haskell-types.html

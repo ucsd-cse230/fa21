@@ -4,7 +4,7 @@ github:              "ucsd-cse230/web"
 license:             MIT
 author:              "Ranjit Jhala"
 maintainer:          "jhala@cs.ucsd.edu"
-copyright:           "2020 Ranjit Jhala"
+copyright:           "2021 Ranjit Jhala"
 
 extra-source-files:
 - README.md
@@ -18,6 +18,21 @@ dependencies:
 - QuickCheck
 - unordered-containers
 - mtl
+- stm
+- time
+- random
+- bytestring
+- HTTP
+- network-uri
 
 library:
   source-dirs: src
+
+executables:
+  stm:
+    main: stm.lhs
+    source-dirs: src
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N

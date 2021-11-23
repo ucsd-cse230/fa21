@@ -231,92 +231,38 @@ if (window.navigator.appName == "Microsoft Internet Explorer") {
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-			<h2 id="mutable-state-via-ioref">1. Mutable State Via IORef</h2>
+			<h2 id="global-state-ioref">0. Global State: <code class="sourceCode haskell"><span class="dt">IORef</span></code></h2>
 
-<h2 id="forking-a-thread">2. Forking A Thread</h2>
+<h2 id="mutable-state-via-ioref">1. Mutable State Via IORef</h2>
 
-<h2 id="randomly-fuzzing-the-thread-scheduler">3. Randomly Fuzzing the Thread Scheduler</h2>
-
-<h2 id="data-races-due-to-sharing">3. Data Races due to sharing</h2>
-<p>Bank account revisited; depositing with different threads, and fuzzed scheduler</p>
-<h2 id="mvars-vanilla">4. MVars: Vanilla</h2>
-<p>Shared Message-Box-Variables <code class="sourceCode haskell"><span class="dt">MVar</span></code></p>
-<ul>
-<li>Message Box has EITHER an <code class="sourceCode haskell">a</code> or is EMPTY</li>
-</ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">MVar</span> a</span></code></pre></div>
-<ul>
-<li>Create an EMPTY Reference</li>
-</ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="ot">    newEmptyMVar ::</span> <span class="dt">IO</span> (<span class="dt">MVar</span> a)</span></code></pre></div>
-<ul>
-<li>Create a FULL reference</li>
-</ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="ot">    newMVar	     ::</span> a <span class="ot">-&gt;</span> <span class="dt">IO</span> (<span class="dt">MVar</span> a)</span></code></pre></div>
-<ul>
-<li>Blocks until box is full, takes out contents</li>
-</ul>
-<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="ot">    takeMVar	 ::</span> <span class="dt">MVar</span> a <span class="ot">-&gt;</span> <span class="dt">IO</span> a</span></code></pre></div>
-<ul>
-<li>Overwrites contents with new contents</li>
-</ul>
-<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="ot">    putMVar	     ::</span> <span class="dt">MVar</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span></code></pre></div>
-<p><strong>Uses of <code class="sourceCode haskell"><span class="dt">MVar</span></code></strong></p>
+<h2 id="an-api-for-shared-message-box-variables-mvar">4. An API for Shared Message-Box-Variables <code class="sourceCode haskell"><span class="dt">MVar</span></code></h2>
+<p>An <code class="sourceCode haskell"><span class="dt">MVar</span></code> can be used as</p>
 <ol type="1">
-<li><p>An MVar is a useful container for shared mutable state, e.g. common design pattern where threads need read and write access to some state, is to represent the state value as an ordinary immutable Haskell data structure stored in an MVar.</p></li>
-<li><p>An MVar is a one-place channel, which can be used for asynchronous communication between two threads.</p></li>
-<li><p>An MVar () is a lock; takeMVar acquires the lock and putMVar releases it again. An MVar used in this way can protect shared mutable state or critical sections.</p></li>
-<li><h2 id="mvars-bankaccountdeposit">MVars: BankAccount/Deposit</h2></li>
+<li><p>A <strong>container</strong> for shared mutable state, e.g. common design pattern where threads need <em>read</em> and <em>write</em> some shared value: Represent the state as an ordinary immutable value in an <code class="sourceCode haskell"><span class="dt">MVar</span></code>.</p></li>
+<li><p>A one-place <strong>message channel</strong>, which can be used for <em>asynchronous communication</em> between two threads.</p></li>
+<li><p>A <strong>lock</strong> : <code class="sourceCode haskell">takeMVar</code> <em>acquires</em> the lock and <code class="sourceCode haskell">putMVar</code> <em>releases</em> it again. An MVar used in this way can protect shared mutable state or critical sections.</p></li>
+<li><h2 id="mvars-bank-accountdeposit">MVars: Bank Account/Deposit</h2></li>
 </ol>
-<p>Bank account revisited; using MVars, depositing with different threads, and fuzzed scheduler</p>
+<p>Bank account revisited; using <code class="sourceCode haskell"><span class="dt">MVar</span></code> depositing with different threads, and fuzzed scheduler</p>
 <h2 id="asynchrony-via-mvars">6. Asynchrony Via MVars</h2>
-<p>Can implement “asynchronous” function calls (aka “futures”, “promises”) using <code class="sourceCode haskell"><span class="dt">MVar</span></code>s. Other languages “features” are Haskell’s, “functions”…</p>
+<p>Lets implement <strong>asynchronous</strong> function calls (aka <em>futures</em> or <em>promises</em>) using <code class="sourceCode haskell"><span class="dt">MVar</span></code>s.</p>
+<p>(Other languages “features” are Haskell’s functions …)</p>
 <p>A type representing an Asynchronous Computation</p>
 <p>Function to execute an IO action <code class="sourceCode haskell">async</code>-hronously</p>
-<p>Reading ALL the URLs <strong>in sequence</strong> (i.e. a single thread) with <code class="sourceCode haskell"><span class="fu">mapM</span></code></p>
-<p>Recall that:</p>
-<p>Reading ALL the URLs <strong>asynchronously</strong> with <code class="sourceCode haskell">async</code></p>
-<p>Spawn-then-wait in parallel is a general pattern; lets <strong>generalize</strong> into <code class="sourceCode haskell">asyncMapM</code></p>
-<p><strong>Note:</strong> <em>Exact</em> type as <code class="sourceCode haskell"><span class="fu">mapM</span></code> – so you can literally just drop-in replace to get parallelism.</p>
-<p>Reading ALL URLs with <code class="sourceCode haskell">asyncMapM</code></p>
-<p>synchronize (l) { // act }</p>
-<p>synchronize :: Lock -&gt; IO a -&gt; IO a</p>
-<p>synchronize l act</p>
-<h2 id="java-style-synchronization-via-mvars">7. Java-style Synchronization via MVars</h2>
-<p>Next, lets see how <code class="sourceCode haskell"><span class="dt">MVars</span></code> give us Java style <code class="sourceCode haskell">synchronize</code>, as a simple function, no need to extend the language.</p>
-<p><strong>Key idea:</strong> Execute an action <strong>while holding lock</strong></p>
-<p><strong>MVars as Locks</strong></p>
-<p><strong>Acquiring Locks</strong></p>
-<ul>
-<li>Just <strong>take</strong> the <code class="sourceCode haskell"><span class="dt">MVar</span></code>s contents!</li>
-<li>Subsequent calls to <code class="sourceCode haskell">acquire</code> will block…</li>
-</ul>
-<p><strong>Releasing Locks</strong></p>
-<ul>
-<li>Just <strong>put back</strong> the <code class="sourceCode haskell"><span class="dt">MVar</span></code>s contents!</li>
-<li>Subsequent calls to <code class="sourceCode haskell">acquire</code> will now get unblocked…</li>
-</ul>
-<p><strong>Synchronized “Blocks”</strong></p>
-<p>Now, a Java style <code class="sourceCode haskell">synchronize</code> block</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="kw">synchronized</span> (l) {</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>  statement</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>}</span></code></pre></div>
-<p>is just a simple Haskell function:</p>
-<p><strong>Exercise</strong> Can you think of a bug in the above? How would you fix it?</p>
-<h2 id="synchronized-bank-accounts">8. “Synchronized” Bank Accounts</h2>
-<p>A <code class="sourceCode haskell">synchronize</code>d deposit that prevents races…</p>
+<p>Function to <code class="sourceCode haskell">wait</code> for the result of <code class="sourceCode haskell"><span class="dt">Async</span></code> computation</p>
+<p><strong>Application:</strong> Download a bunch of URLs asynchronously, <em>without blocking</em> on each other</p>
+<p>To demo the below, build and run with:</p>
+<p>A list of URLs</p>
+<p>Reading a SINGLE URL</p>
 <p><strong>Exercise:</strong> What happens if you comment out the <code class="sourceCode haskell">synchronize l</code> ?</p>
 <p>Btw, why are we using <code class="sourceCode haskell">asyncMapM</code> not something like <code class="sourceCode haskell">forkMapM</code>?</p>
 <p>Try to use this instead of <code class="sourceCode haskell">asyncMapM</code> above and see if you can figure it out.</p>
-<p><strong>Hint:</strong> after forking, parent does not wait for children to finish…</p>
+<p><strong>Hint:</strong> What happens <em>after</em> forking?</p>
 <h2 id="global-locks-means-zero-concurrency">9. GLOBAL Locks means Zero Concurrency</h2>
 <p>Pretty silly if the <strong>entire</strong> bank froze up to handle a <strong>single</strong> customer!</p>
 <p><code class="sourceCode haskell"><span class="dt">AccountMV</span></code> has a local lock per account, lets simulate with explicit lock.</p>
 <p>Create a new “locked” account</p>
 <p>Now, lets do concurrent deposits, but make sure we use the <em>same</em> lock…</p>
-<h2 id="transactions-compose">Transactions Compose</h2>
-<p>Trivial to compose actions without worrying about <em>deadlock</em> or <em>race</em></p>
-<p>No need for <strong>any</strong> synchronization, just say <code class="sourceCode haskell">atomic</code></p>
                 <hr>
             </div>
         </div>
