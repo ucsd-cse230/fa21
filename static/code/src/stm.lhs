@@ -24,6 +24,7 @@ import Data.Time
 import Text.Printf
 \end{code}
 
+
 0. Global State: `IORef`
 -------------------------
 

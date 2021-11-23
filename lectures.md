@@ -155,7 +155,7 @@ The lectures will be recorded and available on [CANVAS](https://canvas.ucsd.edu/
 [lec10]: lectures/lec-quickcheck.html
 [lhs10]: lectures/lec-quickcheck.lhs
 
-[pdf13]: static/lec-stm-2x2.pdf
+[pdf13]: static/raw/lec-stm-2x2.pdf
 [lec13]: lectures/lec-stm.html
 [lhs13]: lectures/lec-stm.lhs
 
