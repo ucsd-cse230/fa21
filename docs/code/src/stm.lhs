@@ -28,11 +28,16 @@ import Text.Printf
 0. Global State: `IORef`
 -------------------------
 
-\begin{code}
+\begin{spec}
 -- newRef   :: a -> IO (IORef a)        -- p  = new (a) c
 -- readRef  :: IORef a -> IO a          -- *p
 -- writeRef :: IORef a -> a -> IO ()    -- *p = e
+\end{spec}
 
+
+
+
+\begin{code}
 main0 :: IO ()
 main0 = do
   p  <- newIORef (10 :: Int)
