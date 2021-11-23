@@ -118,6 +118,7 @@ The lectures will be recorded and available on [CANVAS](https://canvas.ucsd.edu/
 [12-parsers]: lectures/12-parsers.html
 [13-transformers]: lectures/13-transformers.html
 [14-testing]: lectures/14-testing.html
+[15-stm]: lectures/15-stm.html
 
 <!-- JUNK -->
 [07-testing]: lectures/00-intro.html
