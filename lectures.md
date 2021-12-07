@@ -29,15 +29,21 @@ The lectures will be recorded and available on [CANVAS](https://canvas.ucsd.edu/
 | *11/9*     | Monad Transformers              | [html][13-transformers]   |                      | [code][code-11-9]  | 
 | *11/16*    | Property-based Testing          | [html][14-testing]        |                      | [code][code-11-16] | 
 | *11/23*    | Concurrency                     | [html][15-stm]            | [pdf][pfd13]         | [code][code-11-23] |
+| *11/30*    | Refinement Types                | [1][lh1] [2][lh2] [3][lh3] [4][lh4]   |          |                    |          
 
 <!-- 
 | *12/3*     | Exceptions                      | [html][13-transformers]   | [pdf][13-exceptions] | [code][code]      | 
 | *12/8*     | Monad Transformers              | [html][13-transformers]   | [TBD][13-trans]      | [code][code]      | 
 |            | Property-based Testing          | [html][14-testing]        | [TBD][TBD]           | [code][code]      | 
 |            | List Monad                      | [html][10-list]           |                      |                  |
-|            | Refinement Types                |                           |                      |                  |          
 |            | Proofs as Programs              |                           |                      |                  | 
 -->
+
+[lh1]: http://ucsd-progsys.github.io/lh-workshop/01-index.html
+[lh2]: http://ucsd-progsys.github.io/lh-workshop/02-refinements.html
+[lh3]: http://ucsd-progsys.github.io/lh-workshop/03-datatypes.html
+[lh4]: http://ucsd-progsys.github.io/lh-workshop/04-case-study-insertsort.html
+
 
 [TBD]: TBD
 [code]: https://github.com/ucsd-cse230/fa20/tree/master/static/code/src

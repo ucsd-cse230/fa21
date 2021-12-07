@@ -22,16 +22,34 @@ import Network.Browser
 import Network.URI
 import Data.Time
 import Text.Printf
+import Foreign.Marshal.Unsafe (unsafeLocalState)
 \end{code}
+
+1. MUTABLE/UPDATABLE data
+
+2. SHARE it
+3. "lock`"
+
+forkThread :: IO a -> IO () 
+
+-- communicate DATA between THREADS
+-- stuff to happen in another thread
+
+-- locks --> prevent RACE conditions --> two or more up 
+-- SLEEP until stuff happens
+
+
 
 
 0. Global State: `IORef`
 -------------------------
 
 \begin{spec}
--- newRef   :: a -> IO (IORef a)        -- p  = new (a) c
--- readRef  :: IORef a -> IO a          -- *p
--- writeRef :: IORef a -> a -> IO ()    -- *p = e
+type Ptr a = IORef a
+
+newRef   :: a -> IO (IORef a)        -- p  = new (a)
+readRef  :: IORef a -> IO a          -- x  = *p
+writeRef :: IORef a -> a -> IO ()    -- *p = e
 \end{spec}
 
 
@@ -40,17 +58,19 @@ import Text.Printf
 \begin{code}
 main0 :: IO ()
 main0 = do
-  p  <- newIORef (10 :: Int)
+  p  <- newIORef (100 :: Int)
   s1 <- readIORef p
   print s1
+  incr p
+  incr p
   incr p
   s2 <- readIORef p
   print s2
 
 incr :: IORef Int -> IO ()
 incr p = do 
-  v <- readIORef p      --  v  = *p
-  writeIORef p (v + 1)  --  *p = v + 1
+  n <- readIORef p      --  n  = *p
+  writeIORef p (n + 1)  --  *p = n + 1
 \end{code}
 
 
@@ -62,13 +82,7 @@ incr p = do
 newtype AccountIO = AIO (IORef Int)
 
 newAccountIO ::  Int -> IO AccountIO
-newAccountIO n
-  | n >= 0 = do 
-      p <- newIORef n 
-      return (AIO p)
-  | otherwise = do 
-      putStrLn "Money for nothing?!"
-      AIO <$> newIORef 0
+newAccountIO n = AIO <$> newIORef (max n 0) 
 
 showBalanceIO ::  AccountIO -> IO ()
 showBalanceIO (AIO r) = do 
@@ -84,11 +98,12 @@ depositIO (AIO r) n = do
 
 main1 :: IO ()
 main1 = do 
-  a <- newAccountIO 0
-  forM_ [10, 10, 10, 10, 10] $ \i ->
-    depositIO a i
-  showBalanceIO a   -- should be $50
+  acct <- newAccountIO 0
+  forM_ [10, 10, 10, 10, 10] $ \n ->
+    forkIO (depositIO acct n)
+  showBalanceIO acct   -- should be $50
 \end{code}
+
 
 
 
@@ -99,6 +114,7 @@ main1 = do
 A `forever` function that repeats an action ... forever!
 
 \begin{spec}
+forever :: IO a -> IO b
 forever act = do 
   act
   forever act
@@ -135,7 +151,7 @@ main3 = do
   hSetBuffering stdout NoBuffering
   forkIO $ forever (putChar 'A' >> pauseRandom) -- thread that writes 'A'
   forkIO $ forever (putChar 'B' >> pauseRandom) -- thread that writes 'B'
-  threadDelay (20 * oneSec)                     -- shutdown after 1 sec
+  threadDelay (20 * oneSec)                     -- shutdown after a while
 \end{code}
 
 3. Data Races due to sharing
@@ -149,7 +165,7 @@ depositIO' (AIO r) n = do
   i   <- myThreadId
   bal <- readIORef r
   putStrLn (printf "Thread id = %s deposit's = %d bal = %d" (show i) n bal)
-  pauseRandom           -- comment out and you get right answer
+  -- pauseRandom           -- comment out and you get right answer
   if bal + n < 0
     then putStrLn ("Sorry, cannot withdraw. Balance below " ++ show n)
     else do 
@@ -169,6 +185,32 @@ main4 = do
 --------------------------------------------------
 
 \begin{spec}
+-- LOCKs
+type Lock = MVar () 
+
+mkLock  :: IO Lock 
+mkLock = newMVar ()
+
+lock :: Lock -> IO ()
+lock l = takeMVar l
+
+unlock  :: Lock -> IO ()
+unlock l = putMVar l ()
+
+synchronize :: Lock -> IO a -> IO a 
+synchronize l action = do
+  lock l
+  x <- action 
+  unlock l 
+  return x
+
+synchronize (l) { 
+  BLOCK
+}
+
+
+
+
 -- | "Message box" either has an `a` or is empty
 data MVar a            
 
@@ -262,7 +304,7 @@ Function to execute an IO action `async`-hronously
 async :: IO a -> IO (Async a)
 async action = do 
   m <- newEmptyMVar               -- 1. Make an MVar to save result
-  forkIO (action >>= putMVar m)   -- 2. Fork a thread that does the work
+  forkIO (do { x <- action; putMVar m x} )   -- 2. Fork a thread that does the work
   return (Async m)                -- 3. Immediately return (possibly empty) MVar
 \end{code}
 
@@ -340,7 +382,7 @@ lets **generalize** into `asyncMapM`
 \begin{code}
 asyncMapM :: (a -> IO b) -> [a] -> IO [b]
 asyncMapM f xs = do 
-  tasks <- mapM (async . f) xs
+  tasks <- mapM (\x -> async (f x)) xs
   mapM wait tasks
 \end{code}
 
@@ -376,8 +418,8 @@ type Lock = MVar ()
 + Subsequent calls to `acquire` will block...
 
 \begin{code}
-acquire   :: MVar a -> IO a
-acquire l = takeMVar l
+acquire :: MVar a -> IO a
+acquire = takeMVar
 \end{code}
 
 
@@ -412,6 +454,8 @@ synchronize l act = do
   return x
 \end{code}
 
+
+
 **Exercise** Can you think of a bug in the above? How would you fix it?
 
 
@@ -422,11 +466,12 @@ synchronize l act = do
 A `synchronize`d deposit that prevents races...
 
 \begin{code}
+
 main9 :: IO ()
 main9 = do
   l <- newMVar ()                                           -- global lock, with dummy unit value
   a <- newAccountIO 0                                       -- create the account
-  asyncMapM (synchronize l . depositIO' a) [10,10,10,10,10] -- dump money with synchronize
+  asyncMapM (\x -> synchronize l (depositIO' a x)) [10,10,10,10,10] -- dump money with synchronize
   showBalanceIO a                                           -- will be $50
 \end{code}
 
@@ -518,7 +563,6 @@ syncTransfer a1 a2 n =
   synchronize (lock a1) $
     synchronize (lock a2) $
       transferL a1 a2 n
-
 \end{code}
 
 **EXERCISE: TRY GET A DEADLOCK**
